@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace contactsSystem
 {
-    public  class contactsClass
+    public class Contacts
     {
        private String _firstName;
        private String _lastName;
@@ -60,7 +60,7 @@ namespace contactsSystem
             }
         }
 
-        public contactsClass(String firstName, String lastName, int mobileNumber, int birthday, String address)
+        public Contacts(String firstName, String lastName, int mobileNumber, int birthday, String address)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -69,6 +69,10 @@ namespace contactsSystem
             Address = address;
         }
 
+        public string data()
+        {
+            return FirstName + "|" + LastName + "|" + MobileNumber + "|" + Birthday + "|" + Address;
+        }
 
 
     }
