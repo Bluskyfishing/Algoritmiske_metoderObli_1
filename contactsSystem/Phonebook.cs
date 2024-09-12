@@ -71,6 +71,7 @@ namespace contactsSystem
                 {
                     contactsLIST.Add(contact);
                 }
+                else { continue; }
             }
 
             int index = 0;
