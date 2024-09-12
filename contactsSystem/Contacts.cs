@@ -24,7 +24,7 @@ namespace contactsSystem
                 _firstName = value;
             }
         }
-        public string LastName
+        public String LastName
         {
             get => _lastName;
             set
@@ -51,7 +51,7 @@ namespace contactsSystem
             }
         }
 
-        public string Address
+        public String Address
         {
             get => _address;
             set
@@ -69,11 +69,9 @@ namespace contactsSystem
             Address = address;
         }
 
-        public string data()
+        public String data() // Used for searching through contacts
         {
             return FirstName  + LastName + MobileNumber +  Birthday + Address;
         }
-
-
     }
 }

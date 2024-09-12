@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,7 +28,7 @@ namespace contactsSystem
             using (StreamReader r = new StreamReader(fileName))
             {
                 string json = r.ReadToEnd();
-                List<Contact> contactsLIST = JsonConvert.DeserializeObject<List<Contact>>(json);
+                List<Contact> contactsLIST = JsonConvert.DeserializeObject<List<Contact>>(json); // reads json file and puts in list.
 
                 int index = 0;
 
@@ -46,7 +47,7 @@ namespace contactsSystem
 
             foreach(Contact contact in contacts)
             {
-                Console.WriteLine(contact.FirstName + " " + contact.LastName);
+                Console.WriteLine(contact.FirstName + " " + contact.LastName + " " + contact.MobileNumber + " " + contact.Birthday + " " + contact.Address);
             }
         }
 
@@ -66,7 +67,7 @@ namespace contactsSystem
 
             foreach (Contact contact in contacts)
             {
-                if (contact.data().Contains(searchTerm))
+                if (contact.data().Contains(searchTerm)) // data() returns a string of all info from contact.
                 {
                     contactsLIST.Add(contact);
                 }
@@ -112,5 +113,36 @@ namespace contactsSystem
            return contactArray;
         }
 
+        public Contact[] Sort(String field, String order) 
+        {
+            int n = contacts.Length;
+
+            for (int i = 0; i < n - 1; i++)
+            {
+                for (int j = 0; j < n - i - 1; j++)
+                {
+
+                    PropertyInfo propInfo = typeof(Contact).GetProperty(field); // Gets Contact fields. 
+
+                    object value1 = propInfo.GetValue(contacts[j]); // Gets the spesified field
+                    object value2 = propInfo.GetValue(contacts[j + 1]);
+
+                    IComparable comp1 = value1 as IComparable; // Implements IComparable for field
+                    IComparable comp2 = value2 as IComparable;
+
+                    bool shouldSwap = (order == "asc" && comp1.CompareTo(comp2) > 0) ||
+                                      (order == "desc" && comp1.CompareTo(comp2) < 0); // Finds if comp1 is before/after/same as comp2
+
+                    if (shouldSwap)
+                    {
+                        Contact temp = contacts[j];
+                        contacts[j] = contacts[j + 1];
+                        contacts[j + 1] = temp;
+                    }
+                }
+            }
+
+            return contacts;
+        }
     }
 }
